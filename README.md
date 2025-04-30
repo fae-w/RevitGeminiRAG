@@ -93,45 +93,21 @@ The initial generation may take several minutes depending on your model complexi
 
 If you encounter any issues during database generation, don't hesitate to ask an LLM like ChatGPT or Claude for assistance. They can be particularly helpful in troubleshooting Python-related issues or understanding the RAG system's functionality.
 
-### Hosting and Sharing the Database Files
-
-If you want to share pre-built database files with your team or the community, here are the recommended options:
-
-1. **GitHub Releases**: 
-   - Go to your repository's Releases page
-   - Create a new release with a version tag (e.g., v1.0.0-database)
-   - Upload the database files as assets (GitHub allows up to 2GB per file in releases)
-   - Add a link in your README pointing to the release
-
-2. **Cloud Storage Services**:
-   - Upload the files to Google Drive, Dropbox, OneDrive, or similar services
-   - Create a public sharing link
-   - Add the download link to your README
-   - Consider using a service that doesn't require login for downloading
-
-3. **Dedicated File Hosting**:
-   - Services like MediaFire, Mega, or WeTransfer are designed for large files
-   - They provide direct download links that can be added to your README
-   - Some offer permanent links that won't expire
-
-4. **Self-Hosted Solution**:
-   - If you have access to a web server, you can host the files there
-   - This gives you complete control over availability and bandwidth
-   - Ensure your server can handle the file sizes and potential download traffic
-
-When sharing database files, include information about which Revit version they were generated with and any specific models or content they contain. This helps users determine if the pre-built database will meet their needs.
-
-Example README section for shared database files:
-```markdown
-## Pre-built Database Files
+### Pre-built Database Files
 
 For convenience, you can download pre-built database files for Revit 2025:
 
-- [Download RAG Database Files (660MB)](https://example.com/download/revit2025-rag-database.zip)
+- [Download chroma.sqlite3 (375 MB)](https://github.com/ismail-seleit/RevitGeminiRAG/releases/download/v1.0.0-database/chroma.sqlite3)
+- [Download data_level0.bin (285 MB)](https://github.com/ismail-seleit/RevitGeminiRAG/releases/download/v1.0.0-database/data_level0.bin)
 
-These files were generated using Revit 2025 with the standard API documentation. 
-Extract the contents to the `python/revit_db` directory after installing the plugin.
-```
+These files were generated using Revit 2025 with the standard API documentation. After downloading, place them in the following locations:
+
+- Place `chroma.sqlite3` in the `python/revit_db/` directory
+- Place `data_level0.bin` in the `python/revit_db/1ccb803a-3d67-4028-a8e8-35b549456170/` directory
+
+Make sure to create these directories if they don't exist.
+
+> **Note:** If the download links don't work, please check the [Releases page](https://github.com/ismail-seleit/RevitGeminiRAG/releases) for the latest database files.
 
 ## 🚀 Usage
 
