@@ -94,7 +94,7 @@ RevitGeminiRAG is a Revit plugin that allows users to interact with their Revit 
 
 **Demo Video:**
 
-<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7323350614141247488?collapsed=1" height="543" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+[Link to Demo Video](https://www.linkedin.com/posts/ismailseleit_revitapi-opensource-ai-activity-7323350829875224577-y8BF?utm_source=share&utm_medium=member_desktop&rcm=ACoAABanxF8B-fca2vTVLNhTmO144kUIy7MaRhY)
 
 ## Dependencies (Key NuGet Packages)
 
