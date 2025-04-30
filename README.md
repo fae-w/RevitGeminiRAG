@@ -1,5 +1,7 @@
 # RevitGeminiRAG - Revit Plugin with RAG-based API Interaction
 
+*This project started with a simple question: How can we give LLMs full access to the Revit API so they become specialized Revit software developers and interact flawlessly with Revit?*
+
 **Disclaimer:** This project is shared "as-is" as a proof-of-concept and is **not actively maintained**. It demonstrates a method for enabling Large Language Models (LLMs) like Google Gemini to interact with the Revit API using a Retrieval-Augmented Generation (RAG) system. Feel free to fork, modify, and build upon it, but expect potential bugs or limitations. Use at your own risk.
 
 ## Overview
@@ -89,6 +91,10 @@ RevitGeminiRAG is a Revit plugin that allows users to interact with their Revit 
 *   "Select all doors located on 'Level 1'."
 *   "Hide all furniture elements in the active 3D view."
 *   "Create a text note saying 'Please verify dimensions' near the currently selected element."
+
+**Demo Video:**
+
+<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7323350614141247488?collapsed=1" height="543" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
 
 ## Dependencies (Key NuGet Packages)
 
