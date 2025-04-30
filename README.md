@@ -46,7 +46,7 @@ RevitGeminiRAG is a Revit plugin that allows users to interact with their Revit 
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/ismail-seleit/RevitGeminiRAG
     cd RevitGeminiRAG
     ```
 2.  **Set Google API Key:**
