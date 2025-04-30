@@ -1,7 +1,7 @@
 # RevitGeminiRAG
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Revit-2023+-blue.svg" alt="Revit Version">
+  <img src="https://img.shields.io/badge/Revit-2025-blue.svg" alt="Revit Version">
   <img src="https://img.shields.io/badge/Platform-Windows-lightgrey.svg" alt="Platform">
   <img src="https://img.shields.io/badge/Status-Proof%20of%20Concept-yellow.svg" alt="Status">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
@@ -33,10 +33,21 @@ When you ask a question, the system:
 ## 🔧 Prerequisites
 
 - Windows 10 or later
-- Autodesk Revit 2023 or later
+- Autodesk Revit 2025 (tested and confirmed working)
 - Visual Studio 2019 or later with .NET Framework 4.8
 - Google API Key for Gemini AI access
 - Python 3.9+ (for the RAG system)
+
+### Compatibility with Other Revit Versions
+
+This plugin has been tested and confirmed working with Revit 2025. To use it with other Revit versions, you'll need to:
+
+1. Download the Revit SDK for your specific Revit version
+2. Clean and chunk the CHM documentation file
+3. Convert the documentation to markdown format
+4. Create a new RAG system database using the converted documentation
+
+This process is necessary because the current RAG system database could not be uploaded to GitHub due to file size limits. Don't hesitate to ask an LLM (like ChatGPT or Claude) for help with these steps if you encounter any difficulties.
 
 ## ⚙️ Installation
 
@@ -78,7 +89,9 @@ These files are automatically generated when you first run the plugin with a Rev
 2. Create a vector database in the `python/revit_db` directory
 3. Use this database for future RAG queries
 
-The initial generation may take several minutes depending on your model complexity.
+The initial generation may take several minutes depending on your model complexity. The database files could not be included in this repository due to GitHub's file size limits, so this step must be completed after installation.
+
+If you encounter any issues during database generation, don't hesitate to ask an LLM like ChatGPT or Claude for assistance. They can be particularly helpful in troubleshooting Python-related issues or understanding the RAG system's functionality.
 
 ## 🚀 Usage
 
@@ -100,6 +113,7 @@ The initial generation may take several minutes depending on your model complexi
 - Initial database generation can be time-consuming for large models
 - Some complex queries may require rephrasing for optimal results
 - The codebase is provided as-is without extensive documentation
+- Currently optimized for Revit 2025; adaptation required for other versions
 
 ## 🤝 Contributing
 
