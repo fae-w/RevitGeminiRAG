@@ -1,150 +1,103 @@
-# RevitGeminiRAG
+# RevitGeminiRAG - Revit Plugin with RAG-based API Interaction
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Revit-2025-blue.svg" alt="Revit Version">
-  <img src="https://img.shields.io/badge/Platform-Windows-lightgrey.svg" alt="Platform">
-  <img src="https://img.shields.io/badge/Status-Proof%20of%20Concept-yellow.svg" alt="Status">
-  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-</p>
+**Disclaimer:** This project is shared "as-is" as a proof-of-concept and is **not actively maintained**. It demonstrates a method for enabling Large Language Models (LLMs) like Google Gemini to interact with the Revit API using a Retrieval-Augmented Generation (RAG) system. Feel free to fork, modify, and build upon it, but expect potential bugs or limitations. Use at your own risk.
 
-A Revit plugin that uses Retrieval-Augmented Generation (RAG) to enable natural language interaction with the Revit API.
+## Overview
 
-## 📋 Project Status
+RevitGeminiRAG is a Revit plugin that allows users to interact with their Revit models using natural language queries processed by Google's Gemini models. It leverages a RAG system to provide the LLM with relevant context from the Revit API documentation, enabling it to understand and respond to Revit-specific requests more effectively.
 
-> **Note:** This project is a proof of concept and is not actively maintained. It is being released to the community as a foundation for others to build upon. While functional, the codebase may contain rough edges.
+## How it Works (High-Level)
 
-## 🌟 Key Features
+1.  **User Input:** The user enters a prompt via a dedicated Revit panel (implemented in `PromptForm.cs`).
+2.  **RAG Processing:** A Python script (`python/generate_rag_prompt.py`) preprocesses the prompt and retrieves relevant Revit API information from a pre-built knowledge base.
+3.  **LLM Interaction:** The original prompt and the retrieved context are sent to the Google Gemini API using the `Google.Cloud.AIPlatform.V1` library within the C# plugin.
+4.  **Response Generation:** Gemini generates a response based on the prompt and the provided API context.
+5.  **Display:** The plugin (`RunRAGCommand.cs`) receives the response and displays it to the user in the prompt window.
 
-- **Natural Language Interaction**: Query your Revit model using plain English
-- **Retrieval-Augmented Generation (RAG)**: Combines Revit API knowledge with Google's Gemini AI
-- **Context-Aware Responses**: Get accurate answers about Revit API functionality specific to your model
-- **Extensible Foundation**: Build your own AI-powered Revit tools on top of this framework
+## RAG Knowledge Base (Revit API Context)
 
-## 🔍 How It Works
+*   **Current Version:** The included RAG knowledge base is built upon the **Revit 2025 API documentation**. Therefore, the plugin's understanding is currently optimized for Revit 2025.
+*   **Updating for Other Revit Versions:** To adapt this plugin for a different Revit version, you will need to rebuild the RAG knowledge base. The general process involves:
+    1.  Downloading the Revit SDK for the target version from the Autodesk Developer Network (ADN).
+    2.  Locating the API documentation, often provided as a Compiled HTML Help (`.chm`) file (e.g., `RevitAPI.chm`).
+    3.  Extracting and cleaning the content from the `.chm` file, potentially converting it to Markdown (`.md`) or plain text format suitable for processing.
+    4.  Indexing the cleaned documentation (e.g., splitting into meaningful chunks based on classes, methods, properties).
+    5.  Generating vector embeddings for the indexed documentation using an appropriate embedding model (compatible with the retrieval mechanism in the Python script).
+    6.  Storing these embeddings in a vector database or a file format that the `python/generate_rag_prompt.py` script can efficiently query. *Note: The specifics of steps 3-6 depend on the implementation within the Python script and the chosen embedding/vector store technologies.*
 
-RevitGeminiRAG creates a vector database of Revit API knowledge and combines it with Google's Gemini AI to provide context-aware responses to your queries. The RAG system enables any LLM to access and understand the Revit API in full, making it possible to interact with Revit using natural language.
+## Features
 
-When you ask a question, the system:
-1. Searches the vector database for relevant Revit API information
-2. Retrieves the most pertinent API documentation and examples
-3. Combines this knowledge with the Gemini AI's capabilities
-4. Generates a response that accurately addresses your query in the context of your model
+*   Natural language interaction with Revit models via a dedicated panel.
+*   Integration with Google Gemini LLM for response generation.
+*   Retrieval-Augmented Generation (RAG) system providing Revit 2025 API context to the LLM.
 
-## 🔧 Prerequisites
+## Prerequisites
 
-- Windows 10 or later
-- Autodesk Revit 2025 (tested and confirmed working)
-- Visual Studio 2019 or later with .NET Framework 4.8
-- Google API Key for Gemini AI access
-- Python 3.9+ (for the RAG system)
+*   **Autodesk Revit 2025** (Required for full compatibility with the current RAG knowledge base)
+*   **.NET Framework 4.8** (Standard for Revit 2025 plugins)
+*   **Visual Studio** (e.g., 2019, 2022) with the ".NET desktop development" workload installed.
+*   **Google Cloud Platform Account and Project:** You need an active GCP project to generate an API key.
+*   **A valid Google API Key:** This is essential for authenticating requests to the Gemini API.
+*   **(Optional) Python Environment:** If modifications to the `python/generate_rag_prompt.py` script or the RAG generation process are needed, a Python environment with relevant libraries (e.g., for embedding generation, vector stores) will be required.
 
-### Compatibility with Other Revit Versions
+## Setup and Installation
 
-This plugin has been tested and confirmed working with Revit 2025. To use it with other Revit versions, you'll need to:
+1.  **Clone the Repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd RevitGeminiRAG
+    ```
+2.  **Set Google API Key:**
+    *   **CRITICAL:** You MUST set your Google API Key as a Windows Environment Variable for the plugin to authenticate with Google Cloud.
+    *   Search for "Edit the system environment variables" in the Windows search bar and open it.
+    *   Click the "Environment Variables..." button.
+    *   Under "User variables" (or "System variables" if you prefer), click "New...".
+    *   Variable name: `GOOGLE_API_KEY`
+    *   Variable value: `<Your_Actual_Google_API_Key>`
+    *   Click OK on all dialogs.
+    *   **Important:** Restart Visual Studio and/or Revit if they were open to ensure they pick up the new environment variable.
+3.  **Build the Project:**
+    *   Open `RevitGeminiRAG.sln` in Visual Studio.
+    *   **Check References:** Verify that the Revit API DLLs (`RevitAPI.dll`, `RevitAPIUI.dll`) are correctly referenced. By default, the `.csproj` might point to a standard Revit installation path (e.g., `C:\Program Files\Autodesk\Revit 2025\`). If your installation is different, you'll need to update the reference paths in Visual Studio (Solution Explorer -> References -> Right-click -> Add Reference -> Browse).
+    *   **Restore NuGet Packages:** Right-click the solution in Solution Explorer and select "Restore NuGet Packages".
+    *   **Build:** Build the solution (Build > Build Solution). This will compile the code and create the necessary DLLs in the `bin\Debug\` or `bin\Release\` folder (relative to the project directory).
+4.  **Install the Plugin in Revit:**
+    *   **Locate Add-ins Folder:** Navigate to your Revit Add-ins folder for the current user:
+        `%APPDATA%\Autodesk\Revit\Addins\2025`
+        *(Create the `2025` folder if it doesn't exist)*
+    *   **Copy Addin Manifest:** Copy the `RevitGeminiRAG.addin` file from the root of your cloned repository into this `2025` folder.
+    *   **Edit Addin Manifest:** Open the copied `RevitGeminiRAG.addin` file in a text editor (like Notepad).
+    *   **Update Assembly Path:** Modify the `<Assembly>` tag to point to the **full path** of the `RevitGeminiRAG.dll` file that was generated when you built the project. For example:
+        `<Assembly>C:\path\to\your\cloned\repo\RevitGeminiRAG\bin\Debug\RevitGeminiRAG.dll</Assembly>`
+        *(Replace `C:\path\to\your\cloned\repo\` with the actual path where you cloned the repository and ensure you point to the correct build output folder, e.g., `bin\Debug` or `bin\Release`)*.
+    *   **Copy Dependencies:** Ensure that all necessary dependency DLLs (like the Google Cloud libraries from the build output folder) are located either in the same directory as `RevitGeminiRAG.dll` or in a location where Revit can find them. Copying them to the same folder as the main DLL is usually the simplest approach.
 
-1. Download the Revit SDK for your specific Revit version
-2. Clean and chunk the CHM documentation file
-3. Convert the documentation to markdown format
-4. Create a new RAG system database using the converted documentation
+## Usage
 
-This process is necessary because the current RAG system database could not be uploaded to GitHub due to file size limits. Don't hesitate to ask an LLM (like ChatGPT or Claude) for help with these steps if you encounter any difficulties.
+1.  Start Autodesk Revit 2025.
+2.  If the plugin installed correctly, navigate to the "Add-Ins" tab on the Revit ribbon.
+3.  You should find a button related to "RevitGeminiRAG" (likely named based on the `RunRAGCommand` class). Click it.
+4.  A window (`PromptForm`) will appear. Enter your natural language query about the Revit model or API into the text box.
+5.  Click the submit/run button.
+6.  The plugin will communicate with the Gemini API (using your API key and the RAG context) and display the generated response in the window.
 
-## ⚙️ Installation
+**Example Prompts:**
 
-1. Clone this repository:
-   ```
-   git clone https://github.com/ismail-seleit/RevitGeminiRAG.git
-   ```
+*   "Color all walls thicker than 150mm red in the current view."
+*   "Apply the 'Architectural Plan' view template to the current view."
+*   "Export the 'Room Schedule' to an Excel file on my Desktop."
+*   "Select all doors located on 'Level 1'."
+*   "Hide all furniture elements in the active 3D view."
+*   "Create a text note saying 'Please verify dimensions' near the currently selected element."
 
-2. Open the solution in Visual Studio:
-   ```
-   RevitGeminiRAG.sln
-   ```
+## Dependencies (Key NuGet Packages)
 
-3. Restore NuGet packages and build the solution
+*   Google.Cloud.AIPlatform.V1
+*   Google.Apis / Google.Apis.Auth / Google.Apis.Core
+*   Grpc.* (Core, Net.Client, Auth, etc.)
+*   Newtonsoft.Json
+*   (Review `packages.config` or the `.csproj` file for a complete list)
 
-4. Set up your Google API Key as an environment variable:
-   - Press Win + R, type `sysdm.cpl`, and press Enter
-   - Go to the "Advanced" tab and click "Environment Variables"
-   - Under "User variables", click "New"
-   - Variable name: `GOOGLE_API_KEY`
-   - Variable value: `your-api-key-here`
-   - Click "OK" to save
+## License
 
-5. Copy the built files to your Revit Addins folder:
-   ```
-   C:\Users\[YourUsername]\AppData\Roaming\Autodesk\Revit\Addins\[RevitVersion]\
-   ```
-
-## 📊 Large Files Notice
-
-This repository does not include the large database files required for the RAG system to function. These files are:
-- `python/revit_db/chroma.sqlite3` (approximately 375 MB)
-- `python/revit_db/1ccb803a-3d67-4028-a8e8-35b549456170/data_level0.bin` (approximately 285 MB)
-
-### Generating the Database Files
-
-These files are automatically generated when you first run the plugin with a Revit model. The plugin will:
-1. Extract relevant information from your Revit model
-2. Create a vector database in the `python/revit_db` directory
-3. Use this database for future RAG queries
-
-The initial generation may take several minutes depending on your model complexity. The database files could not be included in this repository due to GitHub's file size limits, so this step must be completed after installation.
-
-If you encounter any issues during database generation, don't hesitate to ask an LLM like ChatGPT or Claude for assistance. They can be particularly helpful in troubleshooting Python-related issues or understanding the RAG system's functionality.
-
-### Pre-built Database Files
-
-For convenience, you can download pre-built database files for Revit 2025:
-
-- [Download chroma.sqlite3 (375 MB)](https://github.com/ismail-seleit/RevitGeminiRAG/releases/download/v1.0.0-database/chroma.sqlite3)
-- [Download data_level0.bin (285 MB)](https://github.com/ismail-seleit/RevitGeminiRAG/releases/download/v1.0.0-database/data_level0.bin)
-
-These files were generated using Revit 2025 with the standard API documentation. After downloading, place them in the following locations:
-
-- Place `chroma.sqlite3` in the `python/revit_db/` directory
-- Place `data_level0.bin` in the `python/revit_db/1ccb803a-3d67-4028-a8e8-35b549456170/` directory
-
-Make sure to create these directories if they don't exist.
-
-> **Note:** If the download links don't work, please check the [Releases page](https://github.com/ismail-seleit/RevitGeminiRAG/releases) for the latest database files.
-
-## 🚀 Usage
-
-1. Open Revit and load a model
-2. Run the RevitGeminiRAG command from the Add-Ins tab
-3. Enter your query in the prompt window (e.g., "How can I get all walls in this model?")
-4. The plugin will use RAG to provide context-aware responses about your model and the Revit API
-
-### Example Queries
-
-- "How do I access all doors in this model?"
-- "Show me how to create a new wall using the API"
-- "What parameters are available for this selected element?"
-- "How can I filter elements by their category?"
-
-## ⚠️ Known Limitations
-
-- The plugin requires an active internet connection to access Google's Gemini AI
-- Initial database generation can be time-consuming for large models
-- Some complex queries may require rephrasing for optimal results
-- The codebase is provided as-is without extensive documentation
-- Currently optimized for Revit 2025; adaptation required for other versions
-
-## 🤝 Contributing
-
-While this project is not actively maintained, contributions are welcome! This project is intended as a foundation for the community to build upon. Feel free to:
-
-- Fork the repository
-- Extend the functionality
-- Fix bugs
-- Improve documentation
-- Submit pull requests
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-*This project is not affiliated with Autodesk or Google. Revit is a registered trademark of Autodesk, Inc. Gemini is a trademark of Google LLC.*
+This project is licensed under the [MIT License](LICENSE).
