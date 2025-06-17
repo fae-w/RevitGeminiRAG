@@ -1,0 +1,13 @@
+# Visual Studio specific files - VERY IMPORTANT
+.vs/
+
+# Build output folders
+[Bb]in/
+[Oo]bj/
+
+# User-specific files (often hidden)
+*.suo
+*.user
+
+# Rider specific files (if you use JetBrains Rider)
+.idea/
