@@ -1,3 +1,0 @@
-# Purpose: This script explains why creating a rule-based filter based on the 'Last Modified Date' is not possible using standard Revit API parameters.
-
-﻿# Error: The Revit API does not expose a standard, universally available, filterable parameter representing the 'Last Modified Date' for elements. Therefore, creating a rule-based filter (ParameterFilterElement) to hide elements based on their modification date is not possible using built-in parameters. Alternative methods like iterating through elements and manually hiding them based on metadata (if available and reliable) would be inefficient and outside the scope of creating a standard view filter.

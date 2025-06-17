@@ -1,3 +1,0 @@
-# Purpose: This script highlights the limitation of Revit API regarding filtering elements based on warnings.
-
-﻿# Error: The Revit API does not support creating a ParameterFilterElement based on whether an element has warnings. Filter rules must be based on specific element parameters or predefined ElementFilter types (like Category, Type, Design Option, etc.). Warnings are not stored as parameters that can be evaluated by standard filter rules. An alternative approach is to get elements with warnings using doc.GetWarnings() and FailureMessage.GetFailingElements() and then apply overrides directly to those elements in the view, but this does not create a persistent filter definition.

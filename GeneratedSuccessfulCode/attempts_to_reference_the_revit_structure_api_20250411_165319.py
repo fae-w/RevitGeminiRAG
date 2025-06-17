@@ -1,3 +1,0 @@
-# Purpose: This script attempts to reference the Revit Structure API.
-
-﻿# Error: Cannot fix the previous error because the OSError indicates an inability to load the 'RevitAPIStructure' assembly, which is likely an environment configuration issue (DLL path, permissions, version mismatch) rather than a flaw in the script's Python code itself. The script correctly attempts to reference this necessary assembly.

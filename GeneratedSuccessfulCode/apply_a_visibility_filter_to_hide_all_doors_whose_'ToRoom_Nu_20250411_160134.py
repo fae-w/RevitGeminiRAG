@@ -1,1 +1,0 @@
-﻿# Error: Cannot fix the previous error because BuiltInParameter.DOOR_TO_ROOM_NUMBER does not exist in the Revit API. Filters cannot be directly created based on the calculated 'ToRoom: Number' parameter of a door using ParameterFilterElement. An alternative approach involves iterating through doors, checking their ToRoom property, and hiding them directly.
